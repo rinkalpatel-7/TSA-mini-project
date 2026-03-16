@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from src.models import TimeSeriesAnalyzer
+import joblib
+
+
 
 def run_experiment():
     # 1. Reproducibility: Set seeds 
@@ -28,11 +31,16 @@ def run_experiment():
     summary = analyzer.fit_arima(order=(1, 1, 1))
     print(summary)
     
-    # 6. Save a Visual for Error Analysis (Section D Requirement)
+    # 6. Save a Visual for Error Analysis (Residuals)
     plt.figure(figsize=(10,6))
     ts_data.plot(title="Time Series Data & Trend")
     plt.savefig("analysis/results_plot.png")
     print("\nAnalysis plot saved to analysis/results_plot.png")
+
+    # 7. Save Model Checkpoint for Reproducibility
+    checkpoint_path = "analysis/arima_model_v1.pkl"
+    joblib.dump(summary, checkpoint_path)
+    print(f"Model checkpoint saved to {checkpoint_path}")
 
 if __name__ == "__main__":
     run_experiment()
