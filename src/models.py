@@ -30,4 +30,4 @@ class TimeSeriesAnalyzer:
         """
         model = ARIMA(self.data, order=order)
         self.model_fit = model.fit()
-        return self.model_fit.summary()
+        return self.model_fit

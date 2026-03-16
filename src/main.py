@@ -1,8 +1,10 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from generate_logs import log_experiment
 from src.models import TimeSeriesAnalyzer
 import joblib
+from src.generate_logs import log_experiment
 
 
 
@@ -28,8 +30,11 @@ def run_experiment():
     
     # 5. Model Fitting (ARIMA)
     print("\nFitting ARIMA(1,1,1) model...")
-    summary = analyzer.fit_arima(order=(1, 1, 1))
-    print(summary)
+    results = analyzer.fit_arima(order=(1, 1, 1))
+    print(results.summary())
+
+    # Call the logger after fitting the model to log the results
+    log_experiment(order=(1, 1, 1), results=results)
     
     # 6. Save a Visual for Error Analysis (Residuals)
     plt.figure(figsize=(10,6))
@@ -39,8 +44,9 @@ def run_experiment():
 
     # 7. Save Model Checkpoint for Reproducibility
     checkpoint_path = "analysis/arima_model_v1.pkl"
-    joblib.dump(summary, checkpoint_path)
+    joblib.dump(results, checkpoint_path)
     print(f"Model checkpoint saved to {checkpoint_path}")
+
 
 if __name__ == "__main__":
     run_experiment()
